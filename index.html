@@ -5,15 +5,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Chongus berus guingus">
-    <meta name="facebook-domain-verification" content="wr8xw4s16lwv0iv4458kf3obeilqop">
-    <meta property="og:title" content="Chongus berus guingus">
+    <meta name="description"
+        content="As melhores técnicas e treinamentos para garantir que seu cachorro se torne um animal educado e equilibrado. Acesse agora e comece a transformar a sua vida e do seu cachorro.">
+    <meta name="facebook-domain-verification" content="2lws58gqi4lgfh8q13cjdmls1c2kpe" />
+    <meta property="og:title" content="Adestramento Eficaz">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.adestramentoeficaz.com.br/">
-    <meta property="og:description" content="Chongus berus guingus">
+    <meta property="og:description"
+        content="As melhores técnicas e treinamentos para garantir que seu cachorro se torne um animal educado e equilibrado. Acesse agora e comece a transformar a sua vida e do seu cachorro.">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Chongus berus guingus">
-    <meta name="twitter:description" content="Chongus berus guingus">
+    <meta name="twitter:title" content="Adestramento Eficaz">
+    <meta name="twitter:description"
+        content="As melhores técnicas e treinamentos para garantir que seu cachorro se torne um animal educado e equilibrado. Acesse agora e comece a transformar a sua vida e do seu cachorro.">
     <meta name="twitter:domain" content="https://www.adestramentoeficaz.com.br/">
     <meta name="theme-color" content="#164a7a">
     <link href="https://www.adestramentoeficaz.com.br/" rel="canonical">
@@ -54,13 +57,6 @@
             align-items: center;
         }
 
-        #videoWrapper:before {
-            content: "";
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
         div#playerButton {
             position: absolute;
             padding: 20px;
@@ -70,17 +66,35 @@
         }
 
         div#playerButton img {
-            width: 250px;
+            width: 100%;
+            max-width: 250px;
         }
 
         div#playerButton p {
             font-size: 22px;
         }
 
-        iframe {
+        video {
             width: 100%;
             height: 100%;
             aspect-ratio: 16 / 9;
+            pointer-events: none;
+        }
+
+        .progress {
+            top: calc(100% - 8px);
+            border-radius: 0;
+        }
+
+        .pause-video-layer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .pause-image {
+            position: absolute;
+            width: calc(100% + 1px);
         }
 
         .comments>div:nth-of-type(even) {
@@ -114,6 +128,15 @@
                 font-size: 13px;
                 font-weight: 600;
             }
+
+            div#playerButton img {
+                width: 100%;
+                max-width: 100px;
+            }
+
+            div#playerButton p {
+                font-size: 12px;
+            }
         }
 
         .ytp-chrome-bottom {
@@ -133,18 +156,19 @@
             </h2>
 
             <div id="videoWrapper">
-                <!-- <div id="playerButton" class="d-flex flex-column align-items-center">
+                <div id="playerButton" class="d-flex flex-column align-items-center">
                     <img src="/images/play_button.webp" alt="">
                     <p class="text-white fw-bold mt-3 mb-0">CLIQUE PARA OUVIR!</p>
-                </div> -->
-                <!-- <iframe frameborder="0" allowfullscreen loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" width="640" height="360"
-                    data-src="https://www.youtube.com/embed/snlY3Sz6ifM?autoplay=1&mute=1&controls=0"
-                    title="Aulão Cão Bem Resolvido"></iframe> -->
-                    <video autoplay muted>
-                        <source src="/video.webm" type="video/mp4">
-                      Your browser does not support the video tag.
-                      </video>
+                </div>
+                <video autoplay muted>
+                    <source src="/video.webm"
+                        type="video/webm">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="progress w-100 position-absolute bg-transparent" style="height: 8px;">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: 0%" aria-valuenow="0"
+                        aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
             </div>
         </div>
     </section>
@@ -269,50 +293,129 @@
         <p class="text-white text-center">Todos os direitos reservados.</p>
     </footer>
     <script>
-        function init() {
-            const vidDefer = document.querySelector('iframe');
-            vidDefer.setAttribute('src', vidDefer.getAttribute('data-src'));
+        // function init() {
+        //     const vidDefer = document.querySelector('iframe');
+        //     vidDefer.setAttribute('src', vidDefer.getAttribute('data-src'));
+        // }
+
+
+
+        // async function fetchImage() {
+        //     try {
+        //         const response = await fetch("https://raw.githubusercontent.com/JefterRocha/doguinho_obediente/main/video.webm");
+        //         if (!response.ok) {
+        //             throw new Error("Network response was not OK");
+        //         }
+        //         const myBuffer = await response.arrayBuffer();
+
+        //         const myBlob = new Blob([myBuffer], { type: 'video/webm' })
+
+        //         video.setAttribute("src", URL.createObjectURL(myBlob));
+
+        //     } catch (error) {
+        //         console.error("There has been a problem with your fetch operation:", error);
+        //     }
+        // }
+
+        // fetchImage()
+
+        fetch('/images/stoped_video.gif').then(res => res.blob())
+            .then(blob => {
+                document.querySelector('#playerButton').addEventListener('click', ({ target }) => {
+                    document.querySelector('#playerButton').classList.add('d-none');
+                    const vidDefer = document.querySelector('video');
+                    vidDefer.currentTime = 0;
+                    vidDefer.muted = false;
+
+                    const pauseVideo = document.createElement('div');
+                    pauseVideo.className = 'pause-video-layer';
+
+                    vidDefer.play().then(() => {
+                        document.querySelector('#videoWrapper').appendChild(pauseVideo);
+                        const progressBar = document.querySelector('.progress-bar');
+
+                        if (vidDefer.ontimeupdate === null) {
+                            vidDefer.ontimeupdate = ({ target }) => {
+                                const progress = Math.round(Math.atan(target.currentTime) / (Math.PI / 2) * 100 * 1000) / 1000;
+
+                                progressBar.style.width = progress + '%';
+                                progressBar.setAttribute('aria-valuenow', progress);
+
+                                localStorage.setItem('currentTime', target.currentTime);
+
+                            };
+                        }
+
+                        if (pauseVideo.onclick === null) {
+                            pauseVideo.onclick = () => {
+                                vidDefer.pause();
+                                const pauseImage = new Image();
+                                pauseImage.className = 'pause-image';
+                                pauseImage.src = URL.createObjectURL(blob);
+
+                                if (pauseImage.onclick === null) {
+                                    pauseImage.onclick = () => {
+                                        vidDefer.play().then(() => {
+                                            pauseImage.parentElement.removeChild(pauseImage);
+                                        })
+                                    }
+                                }
+
+                                document.querySelector('#videoWrapper').appendChild(pauseImage);
+                            }
+                        }
+
+                    });
+                });
+            });
+
+
+    </script>
+    <script>
+        const pixelScript = document.createElement('script');
+        const noScript = document.createElement('noscript');
+        const pixelImg = new Image(1, 1);
+        const bootstrapLink = document.createElement('link');
+
+        pixelScript.innerHTML = `!function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '609396237751810');
+        fbq('track', 'PageView');`;
+
+        pixelImg.style = 'display:none';
+        pixelImg.src = 'https://www.facebook.com/tr?id=609396237751810&ev=PageView&noscript=1'
+
+        function initScripts(params) {
+            noScript.appendChild(pixelImg);
+
+            document.head.appendChild(pixelScript);
+            document.head.appendChild(noScript);
         }
 
         window.onmousemove = () => {
-            init();
+            initScripts();
             window.onscroll = null;
             window.onkeydown = null;
             window.onmousemove = null;
         }
         window.onscroll = () => {
-            init();
+            initScripts();
             window.onmousemove = null;
             window.onscroll = null;
             window.onkeydown = null;
         }
         window.onkeydown = () => {
-            init();
+            initScripts();
             window.onmousemove = null;
             window.onscroll = null;
             window.onkeydown = null;
         }
-
-        document.querySelector('#playerButton').addEventListener('click', ({ target }) => {
-            document.querySelector('#playerButton').classList.add('d-none');
-            const vidDefer = document.querySelector('iframe');
-            vidDefer.parentElement.removeChild(vidDefer);
-
-            // const iframe = document.createElement('iframe');
-
-            // iframe.src = 'https://www.youtube.com/embed/snlY3Sz6ifMcontrols=0';
-            // iframe.allowFullscreen = 1;
-            // iframe.frameBorder = 1;
-            // iframe.title = 'Aulão Cão Bem Resolvido';
-
-            document.querySelector('#videoWrapper').innerHTML = `
-            ${document.querySelector('#videoWrapper').innerHTML}
-            <iframe frameborder="0" allowfullscreen
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" width="640" height="360"
-                src="https://www.youtube.com/embed/snlY3Sz6ifMcontrols=0"
-                title="Aulão Cão Bem Resolvido">
-            </iframe>`;
-        })
     </script>
 </body>
 
