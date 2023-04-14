@@ -248,11 +248,14 @@
         </div>
     </section>
     <section>
-        <div class="container vacancy-notice">
+        <div class="container vacancy-notice d-none">
             <div class="d-grid gap-2 col-md-6 col-10 mx-auto">
                 <a href="https://go.hotmart.com/G81279769V?ap=71a4&split=12&hideBillet=1" role="button" class="btn btn-success px-md-5 py-3 mt-4 mb-3">QUERO GARANTIR MINHA VAGA E
                     EDUCAR
                     MEU CÃO!</a>
+            </div>
+            <div>
+                <a href="https://go.hotmart.com/G81279769V?ap=71a4&split=12&hideBillet=1">AAAAAAAAAAAAAAAAAAA</a>
             </div>
 
             <p class="text-white text-center mb-0"><strong>Aviso:</strong> Restam apenas 2 vagas para fechar a turma!
@@ -393,6 +396,14 @@
         // }
 
         // fetchImage()
+
+        const dt = new Date();
+        const date = dt.toLocaleDateString();
+        const hours = `${dt.getHours()}`.padStart(2, '0');
+        const minutes = `${dt.getMinutes()}`.padStart(2, '0');
+
+        document.querySelector('#date').innerText = date;
+        document.querySelector('#time').innerText = `${hours}:${minutes}`;
 
         fetch('/images/stoped_video.gif').then(res => res.blob())
             .then(blob => {
