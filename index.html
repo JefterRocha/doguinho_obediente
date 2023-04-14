@@ -432,6 +432,9 @@
 
                         if (vidDefer.ontimeupdate === null) {
                             vidDefer.ontimeupdate = ({ target }) => {
+                                if (target.currentTime >= 735) {
+                                    document.querySelector('.vacancy-notice').classList.remove('d-none');
+                                }
                                 const progress = Math.round(Math.atan(target.currentTime) / (Math.PI / 2) * 100 * 1000) / 1000;
 
                                 progressBar.style.width = progress + '%';
