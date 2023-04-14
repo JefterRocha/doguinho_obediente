@@ -96,6 +96,39 @@
             width: calc(100% + 1px);
         }
 
+        .symbol {
+            font-family: normal;
+            width: 48px;
+            height: 48px;
+            font-size: 32px;
+        }
+
+        .resume-actions>.row>.col-12:first-child .symbol {
+            padding-left: 3.5px;
+        }
+
+        .resume-actions>.row>.col-12:last-child .symbol {
+            padding-right: 3.5px;
+        }
+
+        span.fw-bold {
+            line-height: 2.8;
+            font-size: 16px
+        }
+
+        .bg-info p {
+            font-size: 2rem;
+        }
+
+        .resume-actions>.row .col-12.col-md-6.col-12 {
+            cursor: pointer;
+            transition: opacity ease-in-out .2s;
+        }
+
+        .resume-actions>.row .col-12.col-md-6.col-12:hover {
+            opacity: .8;
+        }
+
         .comments>div:nth-of-type(even) {
             background-color: #f4f4f4;
         }
@@ -136,6 +169,24 @@
             div#playerButton p {
                 font-size: 12px;
             }
+
+            .bg-info p {
+                font-size: 1.15rem;
+            }
+
+            .resume-actions {
+                text-align: center;
+            }
+
+            .resume-actions>.row .col-12.col-md-6.col-12:last-child {
+                display: flex;
+                margin-top: 5px;
+            }
+
+            .resume-actions>div {
+                display: inline-flex;
+                flex-direction: column;
+            }
         }
 
         .ytp-chrome-bottom {
@@ -159,9 +210,34 @@
                     <img src="/images/play_button.webp" alt="">
                     <p class="text-white fw-bold mt-3 mb-0">CLIQUE PARA OUVIR!</p>
                 </div>
+                <div class="align-content-center h-100 position-absolute resume-option row w-100 bg-info d-none">
+                    <p class="text-white col-12 text-center fw-bold">Você já começou a assistir à aula</p>
+                    <div class="resume-actions col-12">
+                        <div class="row">
+                            <div class="col-12 col-md-6" id="continuieBtn">
+                                <div class="d-flex justify-content-center justify-content-md-end align-content-center">
+                                    <span
+                                        class="symbol border-white border border-2 text-white rounded-circle d-flex justify-content-center align-items-center me-2">&#9654;</span>
+                                    <div>
+                                        <span class="text-white d-flex align-content-center fw-bold">Continuar
+                                            assistindo?</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6" id="resetBtn">
+                                <div
+                                    class="d-flex justify-content-center justify-content-md-start align-content-center">
+                                    <span
+                                        class="symbol border-white border border-2 text-white rounded-circle d-flex justify-content-center align-items-center me-2">&#10226;</span>
+                                    <span class="text-white d-flex align-content-center fw-bold">Assistir do
+                                        início?</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <video autoplay muted>
-                    <source src="/video.webm"
-                        type="video/webm">
+                    <source src="/video.webm" type="video/webm">
                     Your browser does not support the video tag.
                 </video>
                 <div class="progress w-100 position-absolute bg-transparent" style="height: 8px;">
@@ -174,7 +250,7 @@
     <section>
         <div class="container vacancy-notice">
             <div class="d-grid gap-2 col-md-6 col-10 mx-auto">
-                <a href="#" role="button" class="btn btn-success px-md-5 py-3 mt-4 mb-3">QUERO GARANTIR MINHA VAGA E
+                <a href="https://go.hotmart.com/G81279769V?ap=71a4&split=12&hideBillet=1" role="button" class="btn btn-success px-md-5 py-3 mt-4 mb-3">QUERO GARANTIR MINHA VAGA E
                     EDUCAR
                     MEU CÃO!</a>
             </div>
@@ -194,7 +270,7 @@
                 <div class="comments">
                     <div class="d-flex p-3">
                         <div class="flex-shrink-0">
-                            <img src="/images/profile_picture_01.webp" alt="John Doe" class="me-3 rounded-circle" />
+                            <img src="/images/profile_picture_01.webp" alt="" class="me-3 rounded-circle" />
                         </div>
 
                         <div class="flex-grow-1">
@@ -208,7 +284,7 @@
                     </div>
                     <div class="d-flex p-3">
                         <div class="flex-shrink-0">
-                            <img src="/images/profile_picture_02.webp" alt="John Doe" class="me-3 rounded-circle" />
+                            <img src="/images/profile_picture_02.webp" alt="" class="me-3 rounded-circle" />
                         </div>
 
                         <div class="flex-grow-1">
@@ -220,7 +296,7 @@
                     </div>
                     <div class="d-flex p-3">
                         <div class="flex-shrink-0">
-                            <img src="/images/profile_picture_03.webp" alt="John Doe" class="me-3 rounded-circle" />
+                            <img src="/images/profile_picture_03.webp" alt="" class="me-3 rounded-circle" />
                         </div>
 
                         <div class="flex-grow-1">
@@ -231,7 +307,7 @@
                     </div>
                     <div class="d-flex p-3">
                         <div class="flex-shrink-0">
-                            <img src="/images/profile_picture_04.webp" alt="John Doe" class="me-3 rounded-circle" />
+                            <img src="/images/profile_picture_04.webp" alt="" class="me-3 rounded-circle" />
                         </div>
 
                         <div class="flex-grow-1">
@@ -245,7 +321,7 @@
                     </div>
                     <div class="d-flex p-3">
                         <div class="flex-shrink-0">
-                            <img src="/images/profile_picture_05.webp" alt="John Doe" class="me-3 rounded-circle" />
+                            <img src="/images/profile_picture_05.webp" alt="" class="me-3 rounded-circle" />
                         </div>
 
                         <div class="flex-grow-1">
@@ -259,7 +335,7 @@
                     </div>
                     <div class="d-flex p-3">
                         <div class="flex-shrink-0">
-                            <img src="/images/profile_picture_06.webp" alt="John Doe" class="me-3 rounded-circle" />
+                            <img src="/images/profile_picture_06.webp" alt="" class="me-3 rounded-circle" />
                         </div>
 
                         <div class="flex-grow-1">
@@ -272,7 +348,7 @@
                     </div>
                     <div class="d-flex p-3">
                         <div class="flex-shrink-0">
-                            <img src="/images/profile_picture_07.webp" alt="John Doe" class="me-3 rounded-circle" />
+                            <img src="/images/profile_picture_07.webp" alt="" class="me-3 rounded-circle" />
                         </div>
 
                         <div class="flex-grow-1">
@@ -289,7 +365,7 @@
         </div>
     </section>
     <footer class="py-4">
-        <p class="text-white text-center">Todos os direitos reservados.</p>
+        <p class="text-white text-center mb-0">Todos os direitos reservados.</p>
     </footer>
     <script>
         // function init() {
@@ -320,18 +396,28 @@
 
         fetch('/images/stoped_video.gif').then(res => res.blob())
             .then(blob => {
-                document.querySelector('#playerButton').addEventListener('click', ({ target }) => {
+                const vidDefer = document.querySelector('video');
+                const storagedTime = localStorage.currentTime;
+
+                const progressBar = document.querySelector('.progress-bar');
+
+                if (storagedTime !== undefined) {
+                    const progress = Math.round(Math.atan(parseFloat(storagedTime)) / (Math.PI / 2) * 100 * 1000) / 1000;
+
+                    progressBar.style.width = progress + '%';
+                    progressBar.setAttribute('aria-valuenow', progress);
+                }
+                function handleVideoActions(st) {
                     document.querySelector('#playerButton').classList.add('d-none');
-                    const vidDefer = document.querySelector('video');
-                    vidDefer.currentTime = 0;
+                    vidDefer.currentTime = st ? st : 0;
                     vidDefer.muted = false;
 
-                    const pauseVideo = document.createElement('div');
-                    pauseVideo.className = 'pause-video-layer';
-
                     vidDefer.play().then(() => {
+                        
+                        const pauseVideo = document.createElement('div');
+                        pauseVideo.className = 'pause-video-layer';
                         document.querySelector('#videoWrapper').appendChild(pauseVideo);
-                        const progressBar = document.querySelector('.progress-bar');
+                        
 
                         if (vidDefer.ontimeupdate === null) {
                             vidDefer.ontimeupdate = ({ target }) => {
@@ -365,7 +451,26 @@
                         }
 
                     });
-                });
+                }
+
+                if (storagedTime !== undefined) {
+                    document.querySelector('.resume-option').classList.remove('d-none');
+                    const continuieBtn = document.querySelector('#continuieBtn');
+                    const resetBtn = document.querySelector('#resetBtn');
+
+                    continuieBtn.addEventListener('click', () => {
+                        document.querySelector('.resume-option').classList.add('d-none');
+                        handleVideoActions(parseFloat(storagedTime));
+                    });
+
+                    resetBtn.addEventListener('click', () => {
+                        vidDefer.currentTime = 0;
+                        document.querySelector('.resume-option').classList.add('d-none');
+                        handleVideoActions(0);
+                    });
+                }
+
+                document.querySelector('#playerButton').addEventListener('click', handleVideoActions);
             });
 
 
@@ -375,6 +480,7 @@
         const noScript = document.createElement('noscript');
         const pixelImg = new Image(1, 1);
         const bootstrapLink = document.createElement('link');
+        const cookieIframe = document.createElement('iframe');
 
         pixelScript.innerHTML = `!function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -388,13 +494,20 @@
         fbq('track', 'PageView');`;
 
         pixelImg.style = 'display:none';
-        pixelImg.src = 'https://www.facebook.com/tr?id=609396237751810&ev=PageView&noscript=1'
+        pixelImg.src = 'https://www.facebook.com/tr?id=609396237751810&ev=PageView&noscript=1';
+
+        cookieIframe.style.opacity = 0;
+        cookieIframe.width = 1;
+        cookieIframe.height = 1;
+        cookieIframe.scrolling = 'no';
+        cookieIframe.src = 'https://go.hotmart.com/G81279769V?ap=74c2';
 
         function initScripts(params) {
             noScript.appendChild(pixelImg);
 
             document.head.appendChild(pixelScript);
             document.head.appendChild(noScript);
+            document.head.appendChild(cookieIframe);
         }
 
         window.onmousemove = () => {
