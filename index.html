@@ -83,7 +83,8 @@
     <section>
         <div class="container vacancy-notice d-none">
             <div class="d-grid gap-2 col-md-8 col-12 mx-auto">
-                <a href="https://go.hotmart.com/G81279769V?ap=71a4&split=12&hideBillet=1" role="button" class="btn btn-success btn-lg px-2 px-md-5 py-3 mt-4 mb-3">QUERO GARANTIR MINHA VAGA E
+                <a href="https://go.hotmart.com/G81279769V?ap=71a4&split=12&hideBillet=1" role="button"
+                    class="btn btn-success btn-lg px-2 px-md-5 py-3 mt-4 mb-3">QUERO GARANTIR MINHA VAGA E
                     EDUCAR
                     MEU CÃO!</a>
             </div>
@@ -214,6 +215,10 @@
             document.querySelector('.vacancy-notice').classList.remove('d-none');
         }
 
+        function calcWidth(time) {
+            return 100 * Math.sqrt(1 - (time -= 1) * time);
+        }
+
         fetch('/images/stoped_video.gif').then(res => res.blob())
             .then(blob => {
                 const vidDefer = document.querySelector('video');
@@ -222,22 +227,23 @@
                 const progressBar = document.querySelector('.progress-bar');
 
                 if (storagedTime !== undefined) {
-                    const progress = Math.round(Math.atan(parseFloat(storagedTime)) / (Math.PI / 2) * 100 * 1000) / 1000;
+                    const progress = calcWidth(parseFloat(storagedTime) / 969.107);
 
                     progressBar.style.width = progress + '%';
                     progressBar.setAttribute('aria-valuenow', progress);
                 }
+
                 function handleVideoActions(st) {
                     document.querySelector('#playerButton').classList.add('d-none');
                     vidDefer.currentTime = st ? st : 0;
                     vidDefer.muted = false;
 
                     vidDefer.play().then(() => {
-                        
+
                         const pauseVideo = document.createElement('div');
                         pauseVideo.className = 'pause-video-layer';
                         document.querySelector('#videoWrapper').appendChild(pauseVideo);
-                        
+
 
                         if (vidDefer.ontimeupdate === null) {
                             vidDefer.ontimeupdate = ({ target }) => {
@@ -245,7 +251,8 @@
                                     document.querySelector('.vacancy-notice').classList.remove('d-none');
                                     localStorage.setItem('videoAlreadyWatched', 'alreadyWatched');
                                 }
-                                const progress = Math.round(Math.atan(target.currentTime) / (Math.PI / 2) * 100 * 1000) / 1000;
+                                const { currentTime, duration } = target;
+                                const progress = calcWidth(currentTime / duration);
 
                                 progressBar.style.width = progress + '%';
                                 progressBar.setAttribute('aria-valuenow', progress);
