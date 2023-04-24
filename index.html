@@ -69,7 +69,7 @@
                         </div>
                     </div>
                 </div>
-                <video autoplay muted>
+                <video muted>
                     <source src="/video.webm" type="video/webm">
                     Your browser does not support the video tag.
                 </video>
@@ -222,6 +222,7 @@
         fetch('/images/stoped_video.gif').then(res => res.blob())
             .then(blob => {
                 const vidDefer = document.querySelector('video');
+                vidDefer.play()
                 const storagedTime = localStorage.currentTime;
 
                 const progressBar = document.querySelector('.progress-bar');
