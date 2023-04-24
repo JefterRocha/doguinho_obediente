@@ -238,50 +238,46 @@
                     vidDefer.currentTime = st ? st : 0;
                     vidDefer.muted = false;
 
-                    vidDefer.play().then(() => {
-
-                        const pauseVideo = document.createElement('div');
-                        pauseVideo.className = 'pause-video-layer';
-                        document.querySelector('#videoWrapper').appendChild(pauseVideo);
+                    const pauseVideo = document.createElement('div');
+                    pauseVideo.className = 'pause-video-layer';
+                    document.querySelector('#videoWrapper').appendChild(pauseVideo);
 
 
-                        if (vidDefer.ontimeupdate === null) {
-                            vidDefer.ontimeupdate = ({ target }) => {
-                                if (target.currentTime >= 735) {
-                                    document.querySelector('.vacancy-notice').classList.remove('d-none');
-                                    localStorage.setItem('videoAlreadyWatched', 'alreadyWatched');
-                                }
-                                const { currentTime, duration } = target;
-                                const progress = calcWidth(currentTime / duration);
-
-                                progressBar.style.width = progress + '%';
-                                progressBar.setAttribute('aria-valuenow', progress);
-
-                                localStorage.setItem('currentTime', target.currentTime);
-
-                            };
-                        }
-
-                        if (pauseVideo.onclick === null) {
-                            pauseVideo.onclick = () => {
-                                vidDefer.pause();
-                                const pauseImage = new Image();
-                                pauseImage.className = 'pause-image';
-                                pauseImage.src = URL.createObjectURL(blob);
-
-                                if (pauseImage.onclick === null) {
-                                    pauseImage.onclick = () => {
-                                        vidDefer.play().then(() => {
-                                            pauseImage.parentElement.removeChild(pauseImage);
-                                        })
-                                    }
-                                }
-
-                                document.querySelector('#videoWrapper').appendChild(pauseImage);
+                    if (vidDefer.ontimeupdate === null) {
+                        vidDefer.ontimeupdate = ({ target }) => {
+                            if (target.currentTime >= 735) {
+                                document.querySelector('.vacancy-notice').classList.remove('d-none');
+                                localStorage.setItem('videoAlreadyWatched', 'alreadyWatched');
                             }
-                        }
+                            const { currentTime, duration } = target;
+                            const progress = calcWidth(currentTime / duration);
 
-                    });
+                            progressBar.style.width = progress + '%';
+                            progressBar.setAttribute('aria-valuenow', progress);
+
+                            localStorage.setItem('currentTime', target.currentTime);
+
+                        };
+                    }
+
+                    if (pauseVideo.onclick === null) {
+                        pauseVideo.onclick = () => {
+                            vidDefer.pause();
+                            const pauseImage = new Image();
+                            pauseImage.className = 'pause-image';
+                            pauseImage.src = URL.createObjectURL(blob);
+
+                            if (pauseImage.onclick === null) {
+                                pauseImage.onclick = () => {
+                                    vidDefer.play().then(() => {
+                                        pauseImage.parentElement.removeChild(pauseImage);
+                                    })
+                                }
+                            }
+
+                            document.querySelector('#videoWrapper').appendChild(pauseImage);
+                        }
+                    }
                 }
 
                 if (storagedTime !== undefined) {
