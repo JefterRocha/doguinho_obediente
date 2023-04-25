@@ -39,6 +39,11 @@
             </h2>
 
             <div id="videoWrapper">
+                <div class="load-wrapper position-absolute w-100 h-100 bg-white d-flex justify-content-center align-items-center">
+                    <div class="spinner-border" role="status" style="width: 5rem;height: 5rem;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
                 <div id="playerButton" class="d-flex flex-column align-items-center">
                     <img src="/images/play_button.webp" alt="">
                     <p class="text-white fw-bold mt-3 mb-0">CLIQUE PARA OUVIR!</p>
@@ -222,7 +227,9 @@
         fetch('/images/stoped_video.gif').then(res => res.blob())
             .then(blob => {
                 const vidDefer = document.querySelector('video');
-                vidDefer.play();
+                vidDefer.play().then(q => {
+                    document.querySelector('.load-wrapper').classList.add('d-none')
+                });
                 const storagedTime = localStorage.currentTime;
 
                 const progressBar = document.querySelector('.progress-bar');

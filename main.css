@@ -30,6 +30,10 @@ h2 {
     align-items: center;
 }
 
+.load-wrapper {
+    z-index: 1;
+}
+
 div#playerButton {
     position: absolute;
     padding: 20px;
