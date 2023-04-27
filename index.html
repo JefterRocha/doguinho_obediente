@@ -29,7 +29,12 @@
 </head>
 
 <body>
-    <section>
+    <div class="position-absolute w-100 h-100 bg-white d-flex justify-content-center align-items-center">
+    <div class="spinner-border" role="status" style="width: 5rem;height: 5rem;">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+    <section class="d-none">
         <div class="container pt-5">
             <h1 class="text-white text-center ">DESCUBRA O <span class="text-danger">MÉTODO SECRETO</span> PARA EDUCAR O
                 SEU CÃO EM ATÉ 14 DIAS...</h1>
@@ -39,15 +44,17 @@
             </h2>
 
             <div id="videoWrapper">
-                <div class="load-wrapper position-absolute w-100 h-100 bg-white d-flex justify-content-center align-items-center">
-                    <div class="spinner-border" role="status" style="width: 5rem;height: 5rem;">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                </div>
                 <div id="playerButton" class="d-flex flex-column align-items-center">
                     <img src="/images/play_button.webp" alt="">
                     <p class="text-white fw-bold mt-3 mb-0">CLIQUE PARA OUVIR!</p>
                 </div>
+                <div
+                    class="load-wrapper d-none position-absolute w-100 h-100 bg-white d-flex justify-content-center align-items-center">
+                    <div class="spinner-border" role="status" style="width: 5rem;height: 5rem;">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+
                 <div class="align-content-center h-100 position-absolute resume-option row w-100 bg-info d-none">
                     <p class="text-white col-12 text-center fw-bold">Você já começou a assistir à aula</p>
                     <div class="resume-actions col-12">
@@ -74,7 +81,7 @@
                         </div>
                     </div>
                 </div>
-                <video muted>
+                <video autoplay muted>
                     <source src="/video.webm" type="video/webm">
                     Your browser does not support the video tag.
                 </video>
@@ -85,7 +92,7 @@
             </div>
         </div>
     </section>
-    <section>
+    <section class="d-none">
         <div class="container vacancy-notice d-none">
             <div class="d-grid gap-2 col-md-8 col-12 mx-auto">
                 <a href="https://go.hotmart.com/G81279769V?ap=71a4&split=12&hideBillet=1" role="button"
@@ -101,7 +108,7 @@
 
         </div>
     </section>
-    <section>
+    <section class="d-none">
         <div class="container">
             <div class="bg-white mt-3">
                 <p class="fw-bold p-3">33 comentários</p>
@@ -215,6 +222,7 @@
         document.querySelector('#time').innerText = `${hours}:${minutes}`;
 
         const videoAlreadyWatched = localStorage.videoAlreadyWatched;
+        const storagedTime = localStorage.currentTime;
 
         if (videoAlreadyWatched !== undefined) {
             document.querySelector('.vacancy-notice').classList.remove('d-none');
@@ -224,14 +232,73 @@
             return 100 * Math.sqrt(1 - (time -= 1) * time);
         }
 
+        let showLoading = false;
+
+        const vidDefer = document.querySelector('video');
+
+        function handleTimeUpdade({ target }) {
+            if (showLoading) {
+                document.querySelector('.load-wrapper').classList.add('d-none');
+                showLoading = false;
+                vidDefer.removeEventListener('timeupdate', handleTimeUpdade, false);
+            }
+        }
+
+        vidDefer.addEventListener('timeupdate', handleTimeUpdade);
+
+        function handleVideoActions(st) {
+            document.querySelector('.load-wrapper').classList.remove('d-none');
+            document.querySelector('#playerButton').classList.add('d-none');
+            vidDefer.currentTime = st ? st : 0;
+            vidDefer.muted = false;
+            showLoading = true;
+
+            const pauseVideo = document.createElement('div');
+            pauseVideo.className = 'pause-video-layer';
+            document.querySelector('#videoWrapper').appendChild(pauseVideo);
+
+
+            if (vidDefer.ontimeupdate === null) {
+                vidDefer.ontimeupdate = ({ target }) => {
+                    if (target.currentTime >= 735) {
+                        document.querySelector('.vacancy-notice').classList.remove('d-none');
+                        localStorage.setItem('videoAlreadyWatched', 'alreadyWatched');
+                    }
+                    const { currentTime, duration } = target;
+                    const progress = calcWidth(currentTime / duration);
+
+                    const progressBar = document.querySelector('.progress-bar');
+
+                    progressBar.style.width = progress + '%';
+                    progressBar.setAttribute('aria-valuenow', progress);
+
+                    localStorage.setItem('currentTime', target.currentTime);
+
+                };
+            }
+
+            if (pauseVideo.onclick === null) {
+                pauseVideo.onclick = () => {
+                    vidDefer.pause();
+                    const pauseImage = document.querySelector('.pause-image');
+
+                    if (pauseImage.onclick === null) {
+                        pauseImage.onclick = () => {
+                            vidDefer.play().then(() => {
+                                pauseImage.classList.add('d-none');
+                            })
+                        }
+                    }
+
+                    pauseImage.classList.remove('d-none');
+                }
+            }
+        }
+
         fetch('/images/stoped_video.gif').then(res => res.blob())
             .then(blob => {
-                const vidDefer = document.querySelector('video');
-                vidDefer.play().then(q => {
-                    document.querySelector('.load-wrapper').classList.add('d-none')
-                });
-                const storagedTime = localStorage.currentTime;
-
+                document.querySelector('body > div').classList.add('d-none');
+                document.querySelectorAll('section').forEach(section => { section.classList.remove('d-none') });
                 const progressBar = document.querySelector('.progress-bar');
 
                 if (storagedTime !== undefined) {
@@ -241,72 +308,33 @@
                     progressBar.setAttribute('aria-valuenow', progress);
                 }
 
-                function handleVideoActions(st) {
-                    document.querySelector('#playerButton').classList.add('d-none');
-                    vidDefer.currentTime = st ? st : 0;
-                    vidDefer.muted = false;
+                const pauseImage = new Image();
+                pauseImage.className = 'pause-image d-none';
+                pauseImage.src = URL.createObjectURL(blob);
 
-                    const pauseVideo = document.createElement('div');
-                    pauseVideo.className = 'pause-video-layer';
-                    document.querySelector('#videoWrapper').appendChild(pauseVideo);
+                document.querySelector('#videoWrapper').appendChild(pauseImage);
 
-
-                    if (vidDefer.ontimeupdate === null) {
-                        vidDefer.ontimeupdate = ({ target }) => {
-                            if (target.currentTime >= 735) {
-                                document.querySelector('.vacancy-notice').classList.remove('d-none');
-                                localStorage.setItem('videoAlreadyWatched', 'alreadyWatched');
-                            }
-                            const { currentTime, duration } = target;
-                            const progress = calcWidth(currentTime / duration);
-
-                            progressBar.style.width = progress + '%';
-                            progressBar.setAttribute('aria-valuenow', progress);
-
-                            localStorage.setItem('currentTime', target.currentTime);
-
-                        };
-                    }
-
-                    if (pauseVideo.onclick === null) {
-                        pauseVideo.onclick = () => {
-                            vidDefer.pause();
-                            const pauseImage = new Image();
-                            pauseImage.className = 'pause-image';
-                            pauseImage.src = URL.createObjectURL(blob);
-
-                            if (pauseImage.onclick === null) {
-                                pauseImage.onclick = () => {
-                                    vidDefer.play().then(() => {
-                                        pauseImage.parentElement.removeChild(pauseImage);
-                                    })
-                                }
-                            }
-
-                            document.querySelector('#videoWrapper').appendChild(pauseImage);
-                        }
-                    }
-                }
-
-                if (storagedTime !== undefined) {
-                    document.querySelector('.resume-option').classList.remove('d-none');
-                    const continuieBtn = document.querySelector('#continuieBtn');
-                    const resetBtn = document.querySelector('#resetBtn');
-
-                    continuieBtn.addEventListener('click', () => {
-                        document.querySelector('.resume-option').classList.add('d-none');
-                        handleVideoActions(parseFloat(storagedTime));
-                    });
-
-                    resetBtn.addEventListener('click', () => {
-                        vidDefer.currentTime = 0;
-                        document.querySelector('.resume-option').classList.add('d-none');
-                        handleVideoActions(0);
-                    });
-                }
-
-                document.querySelector('#playerButton').addEventListener('click', () => handleVideoActions(0));
+                document.querySelector('#playerButton').addEventListener('click', () => {
+                    handleVideoActions(0);
+                });
             });
+
+        if (storagedTime !== undefined) {
+            document.querySelector('.resume-option').classList.remove('d-none');
+            const continuieBtn = document.querySelector('#continuieBtn');
+            const resetBtn = document.querySelector('#resetBtn');
+
+            continuieBtn.addEventListener('click', () => {
+                document.querySelector('.resume-option').classList.add('d-none');
+                handleVideoActions(storagedTime);
+            });
+
+            resetBtn.addEventListener('click', () => {
+                vidDefer.currentTime = 0;
+                document.querySelector('.resume-option').classList.add('d-none');
+                handleVideoActions(0);
+            });
+        }
 
 
     </script>
